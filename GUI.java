@@ -5,13 +5,13 @@ public class GUI {
 
     public static void main(String[] args) {
         //Frame utama
-        JFrame frame = new JFrame("FlipList - the list that works for you");
+        JFrame frame = new JFrame("TaskFlow - the list that works for you");
         frame.setSize(800, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
 
         //Bagian atas
-        JLabel lblWelcome = new JLabel("Welcome Kazi Mehedi Hasan");
+        JLabel lblWelcome = new JLabel("Welcome!");
         lblWelcome.setBounds(20, 10, 200, 20);
         frame.add(lblWelcome);
 
@@ -71,8 +71,8 @@ public class GUI {
 
         String[] columnNames = {"List Title", "Description", "Date"};
         Object[][] data = {
-            {"Study", "Math", "25-12-2014"},
-            {"Buy new album", "Will buy new LP album", "30-12-2014"},
+            {"Study", "Math Numeric", "25-12-2014"},
+            {"Buy new album", "Will buy new Metallica album yoww", "30-12-2014"},
             {"Python chrome", "Will make a chrome python", "30-12-2014"},
             {"Travel", "Travel to friend's house", "2-1-2014"}
         };

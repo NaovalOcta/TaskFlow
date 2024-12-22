@@ -228,13 +228,13 @@ public class GUI extends Application {
         TableColumn<String[], String> colDate = new TableColumn<>("Date");
         colDate.setCellValueFactory(data -> new javafx.beans.property.SimpleStringProperty(data.getValue()[2]));
 
-        TableColumn<String[], String> colImage = new TableColumn<>("See Attachment");
+        TableColumn<String[], String> colImage = new TableColumn<>("Images");
         colImage.setCellFactory(param -> new TableCell<>() {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (!empty) {
-                    Button seeAttachmentButton = new Button("View Image");
+                    Button seeAttachmentButton = new Button("VIEW");
 
                     // Hide View Image button if no image exists
                     String[] task = getTableView().getItems().get(getIndex());

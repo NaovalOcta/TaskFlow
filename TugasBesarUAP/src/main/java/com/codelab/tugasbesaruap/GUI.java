@@ -1,107 +1,135 @@
 package com.codelab.tugasbesaruap;
 
-import javax.swing.*;
-import java.awt.*;
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.LinearGradient;
+import javafx.scene.paint.CycleMethod;
+import javafx.scene.paint.Stop;
+import javafx.scene.paint.Color;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-
-import java.io.IOException;
+import javafx.scene.shape.Rectangle;
 
 public class GUI extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(GUI.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+    public void start(Stage stage) {
+        // Root container
+        Pane root = new Pane();
+
+        // Gradasi background
+        Rectangle gradientBackground = new Rectangle(800, 600);
+        LinearGradient gradient = new LinearGradient(
+                0, 0, 0, 1, true, CycleMethod.NO_CYCLE,
+                new Stop(0, Color.web("#4286f4")),
+                new Stop(1, Color.web("#373B44"))
+        );
+        gradientBackground.setFill(gradient);
+
+        // Tambahkan background gradasi ke root
+        root.getChildren().add(gradientBackground);
+
+        // Bagian atas
+        Label lblWelcome = new Label("Welcome!");
+        lblWelcome.setLayoutX(20);
+        lblWelcome.setLayoutY(10);
+        lblWelcome.setStyle("-fx-text-fill: white;");
+
+        TextField searchField = new TextField();
+        searchField.setPromptText("Search List");
+        searchField.setLayoutX(500);
+        searchField.setLayoutY(10);
+        searchField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: darkgray;");
+
+        Button searchButton = new Button("Search");
+        searchButton.setLayoutX(710);
+        searchButton.setLayoutY(10);
+
+        // Panel kiri "Create New List"
+        Label lblCreateNewList = new Label("Create New List");
+        lblCreateNewList.setLayoutX(20);
+        lblCreateNewList.setLayoutY(50);
+        lblCreateNewList.setStyle("-fx-text-fill: white;");
+
+        TextField txtListTitle = new TextField();
+        txtListTitle.setPromptText("List Title");
+        txtListTitle.setLayoutX(20);
+        txtListTitle.setLayoutY(80);
+
+        TextField txtDescription = new TextField();
+        txtDescription.setPromptText("Description");
+        txtDescription.setLayoutX(20);
+        txtDescription.setLayoutY(110);
+
+        TextField txtDate = new TextField();
+        txtDate.setPromptText("Date (dd-mm-yyyy)");
+        txtDate.setLayoutX(20);
+        txtDate.setLayoutY(140);
+
+        Button saveButton = new Button("Save");
+        saveButton.setLayoutX(20);
+        saveButton.setLayoutY(170);
+
+        Label lblListSaved = new Label("List has saved");
+        lblListSaved.setLayoutX(20);
+        lblListSaved.setLayoutY(210);
+        lblListSaved.setStyle("-fx-text-fill: white;");
+
+        Button allListsButton = new Button("All Lists");
+        allListsButton.setLayoutX(20);
+        allListsButton.setLayoutY(240);
+
+        Button todaysListsButton = new Button("Today's Lists");
+        todaysListsButton.setLayoutX(20);
+        todaysListsButton.setLayoutY(270);
+
+        Button yesterdaysListsButton = new Button("Yesterday's Lists");
+        yesterdaysListsButton.setLayoutX(20);
+        yesterdaysListsButton.setLayoutY(300);
+
+        Button logOutButton = new Button("LogOut");
+        logOutButton.setLayoutX(20);
+        logOutButton.setLayoutY(340);
+
+        // Panel kanan "Recent To Do Lists"
+        Label lblRecentToDo = new Label("Recent To Do Lists:");
+        lblRecentToDo.setLayoutX(250);
+        lblRecentToDo.setLayoutY(50);
+        lblRecentToDo.setStyle("-fx-text-fill: white;");
+
+        TableView<String[]> table = getTable();
+        table.setLayoutX(250);
+        table.setLayoutY(80);
+
+        // Tambahkan semua elemen ke root
+        root.getChildren().addAll(
+                lblWelcome, searchField, searchButton,
+                lblCreateNewList, txtListTitle, txtDescription, txtDate,
+                saveButton, lblListSaved, allListsButton, todaysListsButton, yesterdaysListsButton,
+                logOutButton, lblRecentToDo, table
+        );
+
+        // Scene dan Stage
+        Scene scene = new Scene(root, 800, 600);
+        stage.setTitle("TaskFlow - the list that works for you");
         stage.setScene(scene);
         stage.show();
     }
 
+    private TableView<String[]> getTable() {
+        TableView<String[]> table = new TableView<>();
+        table.setPrefSize(540, 300);
+
+        TableColumn<String[], String> colTitle = new TableColumn<>("List Title");
+        TableColumn<String[], String> colDesc = new TableColumn<>("Description");
+        TableColumn<String[], String> colDate = new TableColumn<>("Date");
+
+        table.getColumns().addAll(colTitle, colDesc, colDate);
+
+        return table;
+    }
+
     public static void main(String[] args) {
-        //Frame utama
-        JFrame frame = new JFrame("TaskFlow - the list that works for you");
-        frame.setSize(800, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(null);
-
-        //Bagian atas
-        JLabel lblWelcome = new JLabel("Welcome!");
-        lblWelcome.setBounds(20, 10, 200, 20);
-        frame.add(lblWelcome);
-
-        JTextField searchField = new JTextField();
-        searchField.setBounds(500, 10, 200, 25);
-        frame.add(searchField);
-
-        JButton searchButton = new JButton("Search");
-        searchButton.setBounds(710, 10, 80, 25);
-        frame.add(searchButton);
-
-        //Panel kiri "Create New List"
-        JLabel lblCreateNewList = new JLabel("Create New List");
-        lblCreateNewList.setBounds(20, 50, 200, 20);
-        frame.add(lblCreateNewList);
-
-        JTextField txtListTitle = new JTextField("List Title");
-        txtListTitle.setBounds(20, 80, 200, 25);
-        frame.add(txtListTitle);
-
-        JTextField txtDescription = new JTextField("Description");
-        txtDescription.setBounds(20, 110, 200, 25);
-        frame.add(txtDescription);
-
-        JTextField txtDate = new JTextField("Date (dd-mm-yyyy)");
-        txtDate.setBounds(20, 140, 200, 25);
-        frame.add(txtDate);
-
-        JButton saveButton = new JButton("Save");
-        saveButton.setBounds(20, 170, 80, 25);
-        frame.add(saveButton);
-
-        JLabel lblListSaved = new JLabel("List has saved");
-        lblListSaved.setBounds(20, 210, 200, 20);
-        frame.add(lblListSaved);
-
-        JButton allListsButton = new JButton("All Lists");
-        allListsButton.setBounds(20, 240, 100, 25);
-        frame.add(allListsButton);
-
-        JButton todaysListsButton = new JButton("Today's Lists");
-        todaysListsButton.setBounds(20, 270, 120, 25);
-        frame.add(todaysListsButton);
-
-        JButton yesterdaysListsButton = new JButton("Yesterday's Lists");
-        yesterdaysListsButton.setBounds(20, 300, 150, 25);
-        frame.add(yesterdaysListsButton);
-
-        JButton logOutButton = new JButton("LogOut");
-        logOutButton.setBounds(20, 340, 100, 25);
-        frame.add(logOutButton);
-
-        //Panel kanan "Recent To Do Lists"
-        JLabel lblRecentToDo = new JLabel("Recent To Do Lists:");
-        lblRecentToDo.setBounds(250, 50, 200, 20);
-        frame.add(lblRecentToDo);
-
-        String[]columnNames = {"List Title", "Description", "Date"};
-        Object[][] data = {
-                {"Study", "Math Numeric", "25-12-2014"},
-                {"Buy new album", "Will buy new Metallica album yoww", "30-12-2014"},
-                {"Python chrome", "Will make a chrome python", "30-12-2014"},
-                {"Travel", "Travel to friend's house", "2-1-2014"}
-        };
-
-        JTable table = new JTable(data, columnNames);
-        JScrollPane tableScrollPane = new JScrollPane(table);
-        tableScrollPane.setBounds(250, 80, 540, 300);
-        frame.add(tableScrollPane);
-
-        //Warna background
-        frame.getContentPane().setBackground(new Color(184, 134, 11));
-
-        //Tampilkan frame
-        frame.setVisible(true);
+        launch();
     }
 }

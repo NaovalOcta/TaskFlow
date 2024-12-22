@@ -1,17 +1,27 @@
 package com.codelab.tugasbesaruap;
 
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.Stop;
 import javafx.scene.paint.Color;
-import javafx.scene.control.*;
-import javafx.stage.Stage;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+// Bismillah UAP lancar awal hingga akhir
 
 public class GUI extends Application {
+
+    private final List<String[]> tableData = new ArrayList<>();
+
     @Override
     public void start(Stage stage) {
         // Root container
@@ -62,7 +72,7 @@ public class GUI extends Application {
         txtDescription.setLayoutY(110);
 
         TextField txtDate = new TextField();
-        txtDate.setPromptText("Date (dd-mm-yyyy)");
+        txtDate.setPromptText("Date (dd-MM-yyyy)");
         txtDate.setLayoutX(20);
         txtDate.setLayoutY(140);
 
@@ -70,10 +80,33 @@ public class GUI extends Application {
         saveButton.setLayoutX(20);
         saveButton.setLayoutY(170);
 
-        Label lblListSaved = new Label("List has saved");
+        Label lblListSaved = new Label("");
         lblListSaved.setLayoutX(20);
         lblListSaved.setLayoutY(210);
         lblListSaved.setStyle("-fx-text-fill: white;");
+
+        // Event saat tombol "Save" diklik
+        saveButton.setOnAction(event -> {
+            String listTitle = txtListTitle.getText();
+            String description = txtDescription.getText();
+            String date = txtDate.getText();
+
+            if (!listTitle.isEmpty() && !description.isEmpty() && !date.isEmpty()) {
+                if (isValidDate(date)) {
+                    tableData.add(new String[]{listTitle, description, date});
+                    lblListSaved.setText("List saved successfully!");
+
+                    // Reset input field
+                    txtListTitle.clear();
+                    txtDescription.clear();
+                    txtDate.clear();
+                } else {
+                    lblListSaved.setText("Invalid date format! Use dd-MM-yyyy.");
+                }
+            } else {
+                lblListSaved.setText("Please fill all fields!");
+            }
+        });
 
         Button allListsButton = new Button("All Lists");
         allListsButton.setLayoutX(20);
@@ -118,15 +151,31 @@ public class GUI extends Application {
 
     private TableView<String[]> getTable() {
         TableView<String[]> table = new TableView<>();
-        table.setPrefSize(540, 300);
 
         TableColumn<String[], String> colTitle = new TableColumn<>("List Title");
+        colTitle.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[0]));
+
         TableColumn<String[], String> colDesc = new TableColumn<>("Description");
+        colDesc.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[1]));
+
         TableColumn<String[], String> colDate = new TableColumn<>("Date");
+        colDate.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()[2]));
 
         table.getColumns().addAll(colTitle, colDesc, colDate);
+        table.setPrefSize(540, 300);
 
         return table;
+    }
+
+    private boolean isValidDate(String date) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        sdf.setLenient(false);
+        try {
+            sdf.parse(date);
+            return true;
+        } catch (ParseException e) {
+            return false;
+        }
     }
 
     public static void main(String[] args) {

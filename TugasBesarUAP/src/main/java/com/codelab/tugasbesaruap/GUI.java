@@ -132,6 +132,72 @@ public class GUI extends Application {
             }
         });
 
+        // Tambahkan event handler untuk mengedit item di tabel
+        table.setRowFactory(tv -> {
+            TableRow<String[]> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    String[] rowData = row.getItem();
+
+                    txtListTitle.setText(rowData[0]);
+                    txtDescription.setText(rowData[1]);
+                    txtDate.setText(rowData[2]);
+
+                    saveButton.setText("Update");
+
+                    saveButton.setOnAction(updateEvent -> {
+                        String updatedTitle = txtListTitle.getText();
+                        String updatedDescription = txtDescription.getText();
+                        String updatedDate = txtDate.getText();
+
+                        if (!updatedTitle.isEmpty() && !updatedDescription.isEmpty() && !updatedDate.isEmpty()) {
+                            if (isValidDate(updatedDate)) {
+                                rowData[0] = updatedTitle;
+                                rowData[1] = updatedDescription;
+                                rowData[2] = updatedDate;
+                                table.refresh();
+
+                                lblListSaved.setText("List has been updated!");
+
+                                // Clear input fields and reset button text
+                                txtListTitle.clear();
+                                txtDescription.clear();
+                                txtDate.clear();
+                                saveButton.setText("Save");
+                                saveButton.setOnAction(saveEvent -> {
+                                    // Handle new save
+                                    String title = txtListTitle.getText();
+                                    String description = txtDescription.getText();
+                                    String date = txtDate.getText();
+
+                                    if (!title.isEmpty() && !description.isEmpty() && !date.isEmpty()) {
+                                        if (isValidDate(date)) {
+                                            taskList.add(new String[]{title, description, date});
+                                            lblListSaved.setText("List has been saved!");
+
+                                            // Clear input fields
+                                            txtListTitle.clear();
+                                            txtDescription.clear();
+                                            txtDate.clear();
+                                        } else {
+                                            lblListSaved.setText("Invalid date format! Please use dd-MM-yyyy.");
+                                        }
+                                    } else {
+                                        lblListSaved.setText("Please fill out all fields!");
+                                    }
+                                });
+                            } else {
+                                lblListSaved.setText("Invalid date format! Please use dd-MM-yyyy.");
+                            }
+                        } else {
+                            lblListSaved.setText("Please fill out all fields!");
+                        }
+                    });
+                }
+            });
+            return row;
+        });
+
         // Tambahkan semua elemen ke root
         root.getChildren().addAll(
                 lblWelcome, searchField, searchButton,

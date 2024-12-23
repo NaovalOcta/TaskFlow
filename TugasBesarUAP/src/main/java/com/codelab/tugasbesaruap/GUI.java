@@ -53,7 +53,7 @@ public class GUI extends Application {
         searchField.setPromptText("Search List");
         searchField.setLayoutX(550);
         searchField.setLayoutY(10);
-        searchField.setStyle("-fx-text-fill: white; -fx-prompt-text-fill: darkgray;");
+        searchField.setStyle("-fx-text-fill: black; -fx-prompt-text-fill: darkgray;");
 
         Button searchButton = new Button("Search");
         searchButton.setLayoutX(710);
@@ -184,6 +184,31 @@ public class GUI extends Application {
             });
             return row;
         });
+
+        // Event handling untuk tombol Search
+        searchButton.setOnAction(e -> {
+            String searchQuery = searchField.getText().toLowerCase();
+            if (searchQuery.isEmpty()) {
+                lblListSaved.setText("Search query is empty!");
+                return;
+            }
+
+            boolean found = false;
+            for (String[] task : taskList) {
+                if (task[0].toLowerCase().contains(searchQuery) || task[1].toLowerCase().contains(searchQuery)) {
+                    lblListSaved.setText("Task found: " + task[0]);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                lblListSaved.setText("No task matches the search query.");
+            }
+        });
+
+        // Event handling untuk tombol Logout
+        logOutButton.setOnAction(e -> stage.close());
 
         // Menambahkan semua elemen ke root
         root.getChildren().addAll(

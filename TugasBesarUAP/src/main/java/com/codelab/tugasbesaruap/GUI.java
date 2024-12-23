@@ -263,7 +263,33 @@ public class GUI extends Application {
             }
         });
 
-        table.getColumns().addAll(colTitle, colDesc, colDate, colImage);
+        TableColumn<String[], String> colDelete = new TableColumn<>("Delete");
+        colDelete.setCellFactory(param -> new TableCell<>() {
+            @Override
+            protected void updateItem(String item, boolean empty) {
+                super.updateItem(item, empty);
+                if (!empty) {
+                    Button deleteButton = new Button();
+                    ImageView deleteIcon = new ImageView(
+                            new Image("D:/Coding Stuff/Image for coding/Image/Trashcan.png")
+                    );
+                    deleteIcon.setFitWidth(16);
+                    deleteIcon.setFitHeight(16);
+                    deleteButton.setGraphic(deleteIcon);
+
+                    deleteButton.setOnAction(e -> {
+                        int index = getIndex();
+                        taskList.remove(index);
+                    });
+
+                    setGraphic(deleteButton);
+                } else {
+                    setGraphic(null);
+                }
+            }
+        });
+
+        table.getColumns().addAll(colTitle, colDesc, colDate, colImage, colDelete);
 
         return table;
     }

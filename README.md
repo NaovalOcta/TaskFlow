@@ -99,7 +99,7 @@ TaskFlow adalah aplikasi manajemen harian pribadi tugas berbasis GUI (Graphical 
 ----------------------------------------------------------
 
 ## Developer
-- Dibuat oleh Kelompok  untuk keperluan Tugas Besar UAP
+- Dibuat oleh Kelompok 10 untuk keperluan Tugas Besar UAP
 - Semoga aplikasi ini bermanfaat dan membantu kelancaran tugas dan mengatur jadwal anda 🙌
 
 ----------------------------------------------------------

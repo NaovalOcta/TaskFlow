@@ -215,7 +215,7 @@ public class GUI extends Application {
         stage.show();
     }
 
-    private TableView<String[]> getTable() {
+    protected TableView<String[]> getTable() {
         TableView<String[]> table = new TableView<>();
         table.setPrefSize(540, 300);
 
@@ -268,7 +268,7 @@ public class GUI extends Application {
         return table;
     }
 
-    private boolean isValidDate(String date) {
+    protected boolean isValidDate(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         sdf.setLenient(false);
         try {

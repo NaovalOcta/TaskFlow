@@ -281,7 +281,18 @@ public class GUI extends Application {
                 super.updateItem(item, empty);
 
                 if (!empty) {
-                    Button deleteButton = new Button("Delete");
+                    Button deleteButton = new Button();
+                    // Load the icon from the resources/assets directory
+                    Image iconImage = new Image(getClass().getResource("/assets/images/Trashcan.png").toExternalForm());
+                    ImageView iconView = new ImageView(iconImage);
+
+                    // Set the icon on the button
+                    iconView.setFitWidth(16);  // Set icon width
+                    iconView.setFitHeight(16); // Set icon height
+                    deleteButton.setGraphic(iconView);
+
+                    // Make the button transparent
+                    deleteButton.setStyle("-fx-background-color: transparent; -fx-border-color: transparent;");
 
                     deleteButton.setOnAction(e -> {
                         int index = getIndex();

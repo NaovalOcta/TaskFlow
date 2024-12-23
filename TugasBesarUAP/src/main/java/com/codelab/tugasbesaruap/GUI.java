@@ -119,6 +119,8 @@ public class GUI extends Application {
             if (selectedFile != null) {
                 taskImage = new Image(selectedFile.toURI().toString());
                 currentImagePath = selectedFile.toURI().toString();
+
+                information_notif("Gambar berhasil dipilih");
             }
         });
 
@@ -126,7 +128,7 @@ public class GUI extends Application {
         deleteImageButton.setOnAction(e -> {
             taskImage = null;
             currentImagePath = null;
-            lblListSaved.setText("Image has been removed!");
+            information_notif("Gambar telah berhasil dihapus!");
             table.refresh();  // Refresh table untuk update tombol "View Image"
         });
 
@@ -147,12 +149,12 @@ public class GUI extends Application {
                             selectedTask[2] = date;
                             selectedTask[3] = currentImagePath;
                             table.refresh();
-                            lblListSaved.setText("List has been updated!");
+                            information_notif("List telah diperbarui!");
                         }
                         saveButton.setText("Save");
                     } else {
                         taskList.add(new String[]{title, description, date, currentImagePath});
-                        lblListSaved.setText("List has been saved!");
+                        information_notif("List telah berhasil disimpan!");
                     }
 
                     // Mengosongkan Input Fields
@@ -162,10 +164,10 @@ public class GUI extends Application {
                     currentImagePath = null;
                     taskImage = null;
                 } else {
-                    lblListSaved.setText("Invalid date format! Please use dd-MM-yyyy.");
+                    warning_notif("Format tanggal tidak valid! Silahkan gunakan dd-MM-yyyy");
                 }
             } else {
-                lblListSaved.setText("Please fill out all fields!");
+                warning_notif("Kolom tidak boleh kosong, silahkan isi!");
             }
         });
 
@@ -284,6 +286,7 @@ public class GUI extends Application {
                     deleteButton.setOnAction(e -> {
                         int index = getIndex();
                         taskList.remove(index);
+                        information_notif("List telah berhasil dihapus!");
                     });
 
                     setGraphic(deleteButton);
@@ -307,6 +310,28 @@ public class GUI extends Application {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    private void information_notif(String pesan) {
+        // Membuat notifikasi tipe informasi
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Informasi");
+        alert.setHeaderText(null);
+        alert.setContentText(pesan);
+
+        // Menampilkan notifikasi
+        alert.showAndWait();
+    }
+
+    private void warning_notif(String pesan) {
+        // Membuat notifikasi tipe informasi
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle("Peringatan");
+        alert.setHeaderText(null);
+        alert.setContentText(pesan);
+
+        // Menampilkan notifikasi
+        alert.showAndWait();
     }
 
     public static void main(String[] args) {

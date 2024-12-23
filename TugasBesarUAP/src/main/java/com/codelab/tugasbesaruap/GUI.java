@@ -268,14 +268,9 @@ public class GUI extends Application {
             @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
+
                 if (!empty) {
-                    Button deleteButton = new Button();
-                    ImageView deleteIcon = new ImageView(
-                            new Image("D:/Coding Stuff/Image for coding/Image/Trashcan.png")
-                    );
-                    deleteIcon.setFitWidth(16);
-                    deleteIcon.setFitHeight(16);
-                    deleteButton.setGraphic(deleteIcon);
+                    Button deleteButton = new Button("Delete");
 
                     deleteButton.setOnAction(e -> {
                         int index = getIndex();

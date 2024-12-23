@@ -1,8 +1,6 @@
-module com.codelab.tugasbesaruap {
+module com.example.tugasbesaruap {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.desktop;
-
 
 
     opens com.codelab.tugasbesaruap to javafx.fxml;

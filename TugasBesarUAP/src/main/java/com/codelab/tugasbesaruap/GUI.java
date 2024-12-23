@@ -98,6 +98,22 @@ public class GUI extends Application {
         lblListSaved.setLayoutY(250);
         lblListSaved.setStyle("-fx-text-fill: white;");
 
+        Button allListsButton = new Button("All Lists");
+        allListsButton.setLayoutX(20);
+        allListsButton.setLayoutY(280);
+
+        Button todaysListsButton = new Button("Today's Lists");
+        todaysListsButton.setLayoutX(20);
+        todaysListsButton.setLayoutY(310);
+
+        Button yesterdaysListsButton = new Button("Yesterday's Lists");
+        yesterdaysListsButton.setLayoutX(20);
+        yesterdaysListsButton.setLayoutY(340);
+
+        Button logOutButton = new Button("LogOut");
+        logOutButton.setLayoutX(20);
+        logOutButton.setLayoutY(370);
+
         // Right panel "Recent To Do Lists"
         Label lblRecentToDo = new Label("Recent To Do Lists:");
         lblRecentToDo.setLayoutX(250);
@@ -112,7 +128,7 @@ public class GUI extends Application {
         // Add functionality to choose an image
         chooseImageButton.setOnAction(e -> {
             FileChooser fileChooser = new FileChooser();
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", ".png", ".jpg", "*.jpeg"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.jpeg"));
             File selectedFile = fileChooser.showOpenDialog(stage);
 
             if (selectedFile != null) {
@@ -188,8 +204,8 @@ public class GUI extends Application {
         root.getChildren().addAll(
                 lblWelcome, searchField, searchButton,
                 lblCreateNewList, txtListTitle, txtDescription, txtDate,
-                chooseImageButton, deleteImageButton, saveButton, lblListSaved,
-                lblRecentToDo, table
+                chooseImageButton, deleteImageButton, saveButton, lblListSaved, allListsButton, todaysListsButton, yesterdaysListsButton,
+                logOutButton, lblRecentToDo, table
         );
 
         // Create Scene and Stage
@@ -199,7 +215,7 @@ public class GUI extends Application {
         stage.show();
     }
 
-    protected TableView<String[]> getTable() {
+    private TableView<String[]> getTable() {
         TableView<String[]> table = new TableView<>();
         table.setPrefSize(540, 300);
 
@@ -247,38 +263,12 @@ public class GUI extends Application {
             }
         });
 
-        TableColumn<String[], String> colDelete = new TableColumn<>("Delete");
-        colDelete.setCellFactory(param -> new TableCell<>() {
-            @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (!empty) {
-                    Button deleteButton = new Button();
-                    ImageView deleteIcon = new ImageView(
-                            new Image("D:/Coding Stuff/Image for coding/Image/Trashcan.png")
-                    );
-                    deleteIcon.setFitWidth(16);
-                    deleteIcon.setFitHeight(16);
-                    deleteButton.setGraphic(deleteIcon);
-
-                    deleteButton.setOnAction(e -> {
-                        int index = getIndex();
-                        taskList.remove(index);
-                    });
-
-                    setGraphic(deleteButton);
-                } else {
-                    setGraphic(null);
-                }
-            }
-        });
-
-        table.getColumns().addAll(colTitle, colDesc, colDate, colImage, colDelete);
+        table.getColumns().addAll(colTitle, colDesc, colDate, colImage);
 
         return table;
     }
 
-    protected boolean isValidDate(String date) {
+    private boolean isValidDate(String date) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         sdf.setLenient(false);
         try {
